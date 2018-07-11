@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-ultimate",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "author": "wangyanjun(linder0209@126.com)",
   "description": "Ultimate shareable config for stylelint",
   "keywords": [
@@ -9,6 +9,9 @@
     "ultimate"
   ],
   "main": "index.js",
+  "files": [
+    "index.js"
+  ],
   "scripts": {
     "lint:js": "eslint .",
     "precommit": "lint-staged"
