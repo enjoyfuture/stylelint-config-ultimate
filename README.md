@@ -35,8 +35,9 @@ If you've globally installed `stylelint-config-ultimate` using the `-g` flag, th
 {
   "extends": "/absolute/path/to/stylelint-config-ultimate"
 }
+```
 
-#### Suggested additions
+## Suggested additions
 
 `stylelint-config-ultimate` is a great foundation for your own config. You can extend it to create a tailored and much stricter config:
 
