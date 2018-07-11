@@ -1,0 +1,40 @@
+{
+  "name": "stylelint-config-ultimate",
+  "version": "0.1.0",
+  "author": "wangyanjun(linder0209@126.com)",
+  "description": "Ultimate shareable config for stylelint",
+  "keywords": [
+    "stylelint",
+    "stylelint-config",
+    "ultimate"
+  ],
+  "main": "index.js",
+  "scripts": {
+    "lint:js": "eslint .",
+    "precommit": "lint-staged"
+  },
+  "devDependencies": {
+    "eslint": "^5.1.0",
+    "lint-staged": "^7.2.0"
+  },
+  "license": "MIT",
+  "lint-staged": {
+    "linters": {
+      "*.{js}": [
+        "npm run lint:js"
+      ],
+      "*.{js,md}": [
+        "prettier --trailing-comma es5 --no-bracket-spacing false --single-quote --write",
+        "git add"
+      ]
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:joy-web/stylelint-config-ultimate.git"
+  },
+  "bugs": {
+    "url": "https://github.com/joy-web/stylelint-config-ultimate/issues"
+  },
+  "homepage": "https://github.com/joy-web/stylelint-config-ultimate#readme"
+}
