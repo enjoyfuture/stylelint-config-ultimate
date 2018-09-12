@@ -1,6 +1,6 @@
 {
   "name": "stylelint-config-ultimate",
-  "version": "0.1.2",
+  "version": "0.2.0",
   "author": "wangyanjun(linder0209@126.com)",
   "description": "Ultimate shareable config for stylelint",
   "keywords": [
@@ -17,9 +17,9 @@
     "precommit": "lint-staged"
   },
   "devDependencies": {
-    "eslint": "^5.1.0",
+    "eslint": "^5.5.0",
     "husky": "^0.14.3",
-    "lint-staged": "^7.2.0"
+    "lint-staged": "^7.2.2"
   },
   "license": "MIT",
   "lint-staged": {

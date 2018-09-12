@@ -1,8 +1,8 @@
 // 需要对某一规则忽略时，可以使用 stylelint-disable 来处理，比如
 // /* stylelint-disable color-no-hex */
-// 基于 9.3.0 书写
+// 基于 9.5.0 书写
 
-// stylelint-config-standard 继承 stylelint-config-recommended，
+// stylelint-config-standard 基于 v18.2.0 继承 stylelint-config-recommended，
 // stylelint-config-recommended 有以下规则
 
 //  "at-rule-no-unknown": true, // 无效的 css 规则
@@ -21,7 +21,7 @@
 //  "font-family-no-missing-generic-family-keyword": true, // 丢失了常用字体 Arial, sans-serif
 //  "function-calc-no-unspaced-operator": true, // calc 函数操作符前后缺少空格
 //  "function-linear-gradient-no-nonstandard-direction": true, // linear-gradient() 使用标准的语法 https://developer.mozilla.org/en-US/docs/Web/CSS/linear-gradient//Syntax
-//  "keyframe-declaration-no-important": true, // 对于keyframe 表达式中不允许出现 !important Disallow !important within keyframe declarations.
+//  "keyframe-declaration-no-important": true, // 对于 keyframe 表达式中不允许出现 !important Disallow !important within keyframe declarations.
 //  "media-feature-name-no-unknown": true, // 媒体查询应该是已存在的名称 Disallow unknown media feature names.
 //  "no-descending-specificity": true, // Disallow selectors of lower specificity from coming after overriding selectors of higher specificity. 不允许一个优先级高的选择器表达式出现在优先级低的前面
 //  "no-duplicate-at-import-rules": true, // Disallow duplicate @import rules within a stylesheet.
@@ -35,6 +35,7 @@
 //  "selector-type-no-unknown": true, // 不允许未知的标签选择符，比如 table div 等是合法的
 //  "string-no-newline": true, // 字符串不允许跨行书写
 //  "unit-no-unknown": true // 不允许不存在的单位
+
 
 // stylelint-config-standard 有以下规则
 
@@ -142,6 +143,7 @@
 //  "value-list-comma-space-before": "never", // css 属性值，多个时，逗号前不需要空格
 //  "value-list-max-empty-lines": 0, // css 属性值，多个时，不要出现空白行
 
+// 插件 stylelint-order 基于 v1.0.0
 module.exports = {
   extends: 'stylelint-config-standard',
   plugins: ['stylelint-order'],
@@ -156,17 +158,34 @@ module.exports = {
     // Double-quotes are our convention throughout our codebase within (S)CSS. They also reflect how
     // attribute strings are normally quoted within the DOM.
     'string-quotes': 'double', // 使用双引号
+    'declaration-property-unit-blacklist': null, // 单位黑名单
     // 声明的单位
     'declaration-property-unit-whitelist': {'font-size': ['rem', 'px', '%']},
+    'declaration-property-value-blacklist': null, // 值黑名单
+    'declaration-property-value-whitelist:': null,
 
     // The following prefix rules are enabled since we use autoprefixer
     // 不需要加前缀，使用autoprefixer自动补齐
     'at-rule-no-vendor-prefix': true,
-    'media-feature-name-no-vendor-prefix': true,
-    'selector-no-vendor-prefix': true,
-    'value-no-vendor-prefix': true, // 不需要加前缀
+    'media-feature-name-blacklist': null,
+    'media-feature-name-whitelist': null,
+    'media-feature-name-no-vendor-prefix': true, // media不需要加前缀
+    'media-feature-name-value-whitelist': null,
+    'custom-media-pattern': null,
+
+    'selector-no-vendor-prefix': true, // 选择器不需要加前缀
+    'value-no-vendor-prefix': true, // 值不需要加前缀
     // Usually if you're nesting past 4 levels deep there's a problem 嵌套深度
     'max-nesting-depth': 4,
+    'selector-attribute-operator-blacklist': null, // 选择符黑名单
+    'selector-attribute-operator-whitelist': null, // 选择符白名单
+    'selector-class-pattern': null, // class 模式，比如设置关键字，开头等
+    'selector-combinator-blacklist': null, // selector 组合黑名单
+    'selector-combinator-whitelist': null, // selector 组合白名单
+    'selector-id-pattern': null, // id 模式，比如设置关键字，开头等
+    'selector-max-attribute': 4, // 限制选择器属性组合最大个数
+    'selector-max-class': 4, // class 最多组合
+    'selector-max-combinators': 4, // 限制 selector 最多组合数
     // selector 组合选择符个数
     'selector-max-compound-selectors': 4,
     // 允许组合选择符各自组合个数
@@ -174,6 +193,12 @@ module.exports = {
     // attribute modifiers based on selector-max-compound-selectors, plus an addition for
     // pseudo-classes (4). Allow for pseudo-elements (1).
     'selector-max-specificity': '0,5,2',
+    'selector-nested-pattern': null, // 嵌套写法
+    'selector-pseudo-class-blacklist': null,
+    'selector-pseudo-class-whitelist': null,
+    'selector-pseudo-element-blacklist': null,
+    'selector-pseudo-element-whitelist': null,
+
     'no-descending-specificity': null,
     // 不应该有不存在的规则， ignoreAtRules 表示忽略
     'at-rule-no-unknown': [true,
@@ -203,7 +228,7 @@ module.exports = {
     // 限定的不使用规则列表
     //  at-rule-blacklist:
     //    - extend
-
+    'at-rule-whitelist': null,
     // Extremely useful for typos, and anything emergent can be ignored by this rule
     'property-no-unknown': [true, {ignoreProperties: ['contain']}],
     // There is no reason that a specific ID would be needed for UI components
@@ -219,13 +244,25 @@ module.exports = {
     //    - ignoreTypes:
     //        - /fieldset/
     // 是否允许使用通用选择符 * ，以及个数
-    'selector-max-universal': 0,
+    'selector-max-universal': 1,
     // Names are more semantic than numbers font-weight 使用名称而非数字
     'font-weight-notation': null,
     // http://www.paulirish.com/2010/the-protocol-relative-url/  background 中的 url 不要使用 scheme-relative url 即以 // 开头的
     'function-url-no-scheme-relative': true,
+    'function-url-scheme-blacklist': null, // url 关键字黑名单
+    'function-url-scheme-whitelist': null, // url 关键字白名单
+    'function-whitelist': null, // 函数白名单
+    'keyframes-name-pattern': null, // keyframes name 格式
+    'number-max-precision': null, // 设置小数精度，即保留几位有效数字
+    'time-min-milliseconds': null, // 设置时间最小值
+    'unit-blacklist': null, // 单位黑名单
+    'unit-whitelist': null, // 单位白名单
+    'custom-property-pattern': null, // css 变量指定前缀
     // 注释中的黑名单，以下对于 TODO 和 FIXME 给出警告
     'comment-word-blacklist': ['/^TODO:/', '/^FIXME:/', {severity: 'warning'}],
+    'property-blacklist': null, // 指定允许的属性列表
+    'property-no-vendor-prefix': null, // 属性不要加前缀
+    'property-whitelist': null, // 属性白名单
     // 小数时，不需要前面的 0
     'number-leading-zero': 'never',
     // 规则前必须加空行
@@ -237,23 +274,29 @@ module.exports = {
 
     'block-closing-brace-newline-after': ['always', {ignoreAtRules: ['if', 'else']}],
     'color-named': 'never', // 不使用颜色名称来定义颜色
+    'color-no-hex': null, // 不允许使用 hex 格式的颜色值，只能使用 rgb 和 rgba，该规则关闭
+    'function-blacklist': null, // 指定不允许使用的函数
     'shorthand-property-no-redundant-values': true, // 能简写的就简写，比如 margin: 1px 1px 1px 1px;
     'no-unknown-animations': true, // 不应该使用无定义的动画名称，比如 a { animation-name: fancccy-slide; }  @keyframes fancy-slide {}
     'function-comma-newline-before': 'always-multi-line', // 在逗号前添加新行
     'value-keyword-case': 'lower', // 属性值应该小写
     'value-list-comma-newline-before': 'never-multi-line', // css 属性值，多个时，逗号前后值可以在一行，也可以在多行书写
+    'declaration-block-no-redundant-longhand-properties': null, // 属性值建议使用简写，比如 border
+    'declaration-no-important': null, // 是否允许使用 !important
     'declaration-block-semicolon-newline-before': 'never-multi-line',
     'selector-list-comma-space-after': 'always-single-line', // 逗号后是否有空格
     'selector-list-comma-space-before': 'never', // 逗号前是否有空格
     'selector-list-comma-newline-after': 'always-multi-line', // 用逗号隔开的多个选择符，每个应该单独一行
     'media-query-list-comma-newline-before': 'never-multi-line', // 媒体查询，逗号放在上一行的后面
-    '// at-rule-name-newline-after': 'always-multi-line',
+    'at-rule-name-newline-after': null,
     'at-rule-semicolon-newline-after': 'always', // 分号之后必须是新的行
     'at-rule-semicolon-space-before': 'never', // 分号之前必须有空格
     'no-eol-whitespace': null,
     'value-list-max-empty-lines': 1,
     'function-max-empty-lines': 1,
     'selector-pseudo-class-no-unknown': [true, {ignorePseudoClasses: 'global'}],
+    linebreaks: null, // 换行
+    'max-line-length': null, // 最多行数
   },
 
   // 以下为排序插件 stylelint-order
@@ -336,8 +379,8 @@ module.exports = {
     'border-radius',
     'border-top-left-radius',
     'border-top-right-radius',
-    'border-bottom-left-radius',
     'border-bottom-right-radius',
+    'border-bottom-left-radius',
     'border-image',
     'border-image-source',
     'border-image-slice',
@@ -389,6 +432,7 @@ module.exports = {
     'font-variant', // 定义小型大写字母
     'font-size-adjust', // 调整字体大小，目前只有 Firefox 实现了
     'font-stretch', // 为字体定义一个正常或经过伸缩变形的字体外观
+    'font-effect',
     'font-emphasize', // 目前浏览器不支持
     'font-emphasize-position',
     'font-emphasize-style',
@@ -396,6 +440,7 @@ module.exports = {
     'font-smoothing',
     '-moz-osx-font-smoothing',
     '-webkit-font-smoothing',
+    'src',
     'hyphens', // 断行时连字符的处理
     'line-height',
 
@@ -435,6 +480,8 @@ module.exports = {
     'text-shadow',
     'text-transform',
     'text-wrap',
+    '-webkit-text-size-adjust',
+    '-ms-text-size-adjust',
     'letter-spacing',
     '-webkit-line-clamp',
     'word-break',
@@ -464,6 +511,8 @@ module.exports = {
     'animation-timing-function',
     'animation-delay',
     'animation-iteration-count',
+    'animation-direction',
+    'animation-fill-mode',
     'transform',
     'transform-box',
     'transform-origin',
@@ -492,11 +541,14 @@ module.exports = {
     'counter-increment',
     'nav-index',
     'nav-up',
+    'nav-right',
     'nav-down',
     'nav-left',
-    'nav-right',
     'appearance', // 设置元素的默认展示样式
     'speak',
+    'page-break-after',
+    'page-break-before',
+    'page-break-inside',
 
     // 打印属性
     'orphans',
