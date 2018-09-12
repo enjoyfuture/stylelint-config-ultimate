@@ -162,7 +162,8 @@ module.exports = {
     // 声明的单位
     'declaration-property-unit-whitelist': {'font-size': ['rem', 'px', '%']},
     'declaration-property-value-blacklist': null, // 值黑名单
-    'declaration-property-value-whitelist:': null,
+    // 官方文档中有该规则，实际没有
+    // 'declaration-property-value-whitelist:': null,
 
     // The following prefix rules are enabled since we use autoprefixer
     // 不需要加前缀，使用autoprefixer自动补齐
@@ -259,7 +260,7 @@ module.exports = {
     'unit-whitelist': null, // 单位白名单
     'custom-property-pattern': null, // css 变量指定前缀
     // 注释中的黑名单，以下对于 TODO 和 FIXME 给出警告
-    'comment-word-blacklist': ['/^TODO:/', '/^FIXME:/', {severity: 'warning'}],
+    'comment-word-blacklist': [['/^TODO:/', '/^FIXME:/'], {severity: 'warning'}],
     'property-blacklist': null, // 指定允许的属性列表
     'property-no-vendor-prefix': null, // 属性不要加前缀
     'property-whitelist': null, // 属性白名单
